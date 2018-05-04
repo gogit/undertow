@@ -69,7 +69,7 @@ public class LoadBalancingProxyClient implements ProxyClient {
     /**
      * The number of connections to create per thread
      */
-    private volatile int connectionsPerThread = 10;
+    protected volatile int connectionsPerThread = 10;
     private volatile int maxQueueSize = 0;
     private volatile int softMaxConnectionsPerThread = 5;
     private volatile int ttl = -1;
@@ -77,12 +77,12 @@ public class LoadBalancingProxyClient implements ProxyClient {
     /**
      * The hosts list.
      */
-    private volatile Host[] hosts = {};
+    protected volatile Host[] hosts = {};
 
     private final HostSelector hostSelector;
     private final UndertowClient client;
 
-    private final Map<String, Host> routes = new CopyOnWriteMap<>();
+    protected final Map<String, Host> routes = new CopyOnWriteMap<>();
 
     private final ExclusivityChecker exclusivityChecker;
 
@@ -236,6 +236,7 @@ public class LoadBalancingProxyClient implements ProxyClient {
 
     @Override
     public ProxyTarget findTarget(HttpServerExchange exchange) {
+
         return PROXY_TARGET;
     }
 

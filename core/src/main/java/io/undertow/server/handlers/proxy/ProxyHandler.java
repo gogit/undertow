@@ -346,6 +346,7 @@ public final class ProxyHandler implements HttpHandler {
             if (exchange.isResponseStarted()) {
                 IoUtils.safeClose(exchange.getConnection());
             } else {
+                log.error(String.format("%s %s", StatusCodes.SERVICE_UNAVAILABLE, exchange.toString()));
                 exchange.setStatusCode(StatusCodes.SERVICE_UNAVAILABLE);
                 exchange.endExchange();
             }

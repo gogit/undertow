@@ -32,6 +32,7 @@ import javax.security.cert.CertificateEncodingException;
 import javax.security.cert.X509Certificate;
 
 import io.undertow.UndertowMessages;
+import io.undertow.io.Receiver;
 import io.undertow.server.handlers.ResponseCodeHandler;
 import org.jboss.logging.Logger;
 import org.xnio.ChannelExceptionHandler;
@@ -338,6 +339,7 @@ public final class ProxyHandler implements HttpHandler {
 
         @Override
         public void queuedRequestFailed(HttpServerExchange exchange) {
+            log.error("Queued Request Failed");
             failed(exchange);
         }
 
@@ -346,7 +348,17 @@ public final class ProxyHandler implements HttpHandler {
             if (exchange.isResponseStarted()) {
                 IoUtils.safeClose(exchange.getConnection());
             } else {
+                log.error("----------------------------------");
                 log.error(String.format("%s %s", StatusCodes.SERVICE_UNAVAILABLE, exchange.toString()));
+                exchange.getRequestReceiver().receiveFullBytes(new Receiver.FullBytesCallback() {
+                    @Override
+                    public void handle(HttpServerExchange exchange, byte[] message) {
+                        if(message!=null){
+                            log.error(new String(message));
+                        }
+                    }
+                });
+                log.error("----------------------------------");
                 exchange.setStatusCode(StatusCodes.SERVICE_UNAVAILABLE);
                 exchange.endExchange();
             }

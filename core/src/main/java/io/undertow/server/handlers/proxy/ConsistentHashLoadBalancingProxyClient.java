@@ -20,6 +20,20 @@ public class ConsistentHashLoadBalancingProxyClient extends LoadBalancingProxyCl
         return this;
     }
 
+    public ConsistentHashLoadBalancingProxyClient setMaxQueueSize(int maxQueueSize) {
+        super.maxQueueSize = maxQueueSize;
+        return this;
+    }
+
+    public ConsistentHashLoadBalancingProxyClient setSoftMaxConnectionsPerThread(int softMaxConnectionsPerThread) {
+        super.softMaxConnectionsPerThread = softMaxConnectionsPerThread;
+        return this;
+    }
+
+    public ConsistentHashLoadBalancingProxyClient setTtl(int ttl) {
+        super.ttl = ttl;
+        return this;
+    }
 
     protected Host findStickyHost(HttpServerExchange exchange) {
         HeaderValues hv = exchange.getRequestHeaders().get("x-chash-key");

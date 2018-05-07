@@ -70,9 +70,9 @@ public class LoadBalancingProxyClient implements ProxyClient {
      * The number of connections to create per thread
      */
     protected volatile int connectionsPerThread = 10;
-    private volatile int maxQueueSize = 0;
-    private volatile int softMaxConnectionsPerThread = 5;
-    private volatile int ttl = -1;
+    protected volatile int maxQueueSize = 0;
+    protected volatile int softMaxConnectionsPerThread = 5;
+    protected volatile int ttl = -1;
 
     /**
      * The hosts list.
